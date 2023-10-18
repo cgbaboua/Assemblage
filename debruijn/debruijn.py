@@ -95,7 +95,9 @@ def cut_kmer(read, kmer_size):
     :param read: (str) Sequence of a read.
     :return: A generator object that iterate the kmers of of size kmer_size.
     """
-    
+    for i in range(0, len(read) - kmer_size + 1):
+        yield read[i:i + kmer_size]
+
 
 
 def build_kmer_dict(fastq_file, kmer_size):
@@ -263,7 +265,14 @@ def main(): # pragma: no cover
 
 
 if __name__ == '__main__': # pragma: no cover
-    fastq_file = "data/eva71_two_reads.fq"  # Mettez le chemin vers votre fichier FASTQ ici
+    fastq_file = "../data/eva71_two_reads.fq"  # Mettez le chemin vers votre fichier FASTQ ici
     sequences = read_fastq(fastq_file)
-    
+    for seq in sequences:
+        read = seq
+        kmer_size = 6
+        kmers = cut_kmer(read, kmer_size)
+        for kmer in kmers :
+            print(f"Voici les kmers pour cette {seq} --> {kmer}")
+
+
     #main()
