@@ -106,7 +106,14 @@ def build_kmer_dict(fastq_file, kmer_size):
     :param fastq_file: (str) Path to the fastq file.
     :return: A dictionnary object that identify all kmer occurrences.
     """
-    pass
+    kmer_dict = {}  # Utilise un dictionnaire standard
+    for read in read_fastq(fastq_file):  # Lit les séquences depuis le fichier FASTQ
+        for kmer in cut_kmer(read, kmer_size):  # Découpe chaque séquence en k-mers
+            if kmer in kmer_dict:  # Vérifie si le k-mer est déjà dans le dictionnaire
+                kmer_dict[kmer] += 1  # Incrémente le compteur pour ce k-mer
+            else:
+                kmer_dict[kmer] = 1  # Ajoute le k-mer au dictionnaire avec une valeur de 1
+    return kmer_dict  
 
 
 def build_graph(kmer_dict):
@@ -267,12 +274,10 @@ def main(): # pragma: no cover
 if __name__ == '__main__': # pragma: no cover
     fastq_file = "../data/eva71_two_reads.fq"  # Mettez le chemin vers votre fichier FASTQ ici
     sequences = read_fastq(fastq_file)
-    for seq in sequences:
-        read = seq
-        kmer_size = 6
-        kmers = cut_kmer(read, kmer_size)
-        for kmer in kmers :
-            print(f"Voici les kmers pour cette {seq} --> {kmer}")
-
+    kmer_size = 4
+    kmer_dict = build_kmer_dict(fastq_file, kmer_size)
+    for kmer, count in kmer_dict.items():
+        print(f"{kmer}: {count}")
+    
 
     #main()
