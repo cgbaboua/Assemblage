@@ -27,13 +27,13 @@ import textwrap
 import matplotlib.pyplot as plt
 matplotlib.use("Agg")
 
-__author__ = "Your Name"
-__copyright__ = "Universite Paris Diderot"
-__credits__ = ["Your Name"]
+__author__ = "GBABOUA Cassandra"
+__copyright__ = "Universite Paris Cite"
+__credits__ = ["GBABOUA Cassandra"]
 __license__ = "GPL"
 __version__ = "1.0.0"
-__maintainer__ = "Your Name"
-__email__ = "your@email.fr"
+__maintainer__ = "GBABOUA Cassandra"
+__email__ = "cassandra.gbaboua@outlook.fr"
 __status__ = "Developpement"
 
 def isfile(path): # pragma: no cover
@@ -81,7 +81,12 @@ def read_fastq(fastq_file):
     :param fastq_file: (str) Path to the fastq file.
     :return: A generator object that iterate the read sequences. 
     """
-    pass
+    with open(fastq_file, 'r') as fastq :
+        for line in fastq :
+            yield(next(fastq).strip())
+            next(fastq)
+            next(fastq)
+    
 
 
 def cut_kmer(read, kmer_size):
@@ -90,7 +95,7 @@ def cut_kmer(read, kmer_size):
     :param read: (str) Sequence of a read.
     :return: A generator object that iterate the kmers of of size kmer_size.
     """
-    pass
+    
 
 
 def build_kmer_dict(fastq_file, kmer_size):
@@ -258,4 +263,7 @@ def main(): # pragma: no cover
 
 
 if __name__ == '__main__': # pragma: no cover
-    main()
+    fastq_file = "data/eva71_two_reads.fq"  # Mettez le chemin vers votre fichier FASTQ ici
+    sequences = read_fastq(fastq_file)
+    
+    #main()
