@@ -122,8 +122,15 @@ def build_graph(kmer_dict):
     :param kmer_dict: A dictionnary object that identify all kmer occurrences.
     :return: A directed graph (nx) of all kmer substring and weight (occurrence).
     """
-    pass
-
+    my_graph = nx.DiGraph()  # Crée un graphe orienté
+    for kmer, weight in kmer_dict.items():
+        prefix = kmer[:-1]
+        suffix = kmer[1:]
+        if my_graph.has_edge(prefix, suffix):
+            my_graph[prefix][suffix]['weight'] += weight
+        else:
+            my_graph.add_edge(prefix, suffix, weight=weight)
+    return my_graph
 
 def remove_paths(graph, path_list, delete_entry_node, delete_sink_node):
     """Remove a list of path in a graph. A path is set of connected node in
@@ -273,11 +280,12 @@ def main(): # pragma: no cover
 
 if __name__ == '__main__': # pragma: no cover
     fastq_file = "../data/eva71_two_reads.fq"  # Mettez le chemin vers votre fichier FASTQ ici
-    sequences = read_fastq(fastq_file)
     kmer_size = 4
     kmer_dict = build_kmer_dict(fastq_file, kmer_size)
+    debruijn_graph = build_graph(kmer_dict)
+    #Voir le dictionnaire construit
     for kmer, count in kmer_dict.items():
         print(f"{kmer}: {count}")
-    
+
 
     #main()
