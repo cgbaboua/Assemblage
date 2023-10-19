@@ -166,7 +166,7 @@ def path_average_weight(graph, path):
     :param path: (list) A path consist of a list of nodes
     :return: (float) The average weight of a path
     """
-    return statistics.mean([d["weight"] for (u, v, d) in graph.subgraph(path).edges(data=True)])
+    pass
 
 def solve_bubble(graph, ancestor_node, descendant_node):
     """Explore and solve bubble issue
@@ -208,7 +208,12 @@ def get_starting_nodes(graph):
     :param graph: (nx.DiGraph) A directed graph object
     :return: (list) A list of all nodes without predecessors
     """
-    pass
+    starting_nodes = []
+    for node, degree in graph.in_degree():
+        if degree == 0:
+            starting_nodes.append(node)
+    return starting_nodes
+
 
 def get_sink_nodes(graph):
     """Get nodes without successors
@@ -216,7 +221,11 @@ def get_sink_nodes(graph):
     :param graph: (nx.DiGraph) A directed graph object
     :return: (list) A list of all nodes without successors
     """
-    pass
+    sink_nodes = []
+    for node, degree in graph.out_degree():
+        if degree == 0:
+            sink_nodes.append(node)
+    return sink_nodes
 
 def get_contigs(graph, starting_nodes, ending_nodes):
     """Extract the contigs from the graph
@@ -226,7 +235,16 @@ def get_contigs(graph, starting_nodes, ending_nodes):
     :param ending_nodes: (list) A list of nodes without successors
     :return: (list) List of [contiguous sequence and their length]
     """
-    pass
+    contigs = []
+    for start in starting_nodes:
+        for end in ending_nodes:
+            if nx.has_path(graph, start, end):
+                for path in nx.all_simple_paths(graph, start, end):
+                    contig = path[0]
+                    for node in path[1:]:
+                        contig += node[-1]
+                    contigs.append((contig, len(contig)))
+    return contigs
 
 def save_contigs(contigs_list, output_file):
     """Write all contigs in fasta format
@@ -234,7 +252,11 @@ def save_contigs(contigs_list, output_file):
     :param contig_list: (list) List of [contiguous sequence and their length]
     :param output_file: (str) Path to the output file
     """
-    pass
+    with open(output_file, 'w') as file :
+        for i, (contig, length) in enumerate(contigs_list):
+            file.write(">contig_" + str(i) + " len=" + str(length) + "\n")
+            formatted_contig = textwrap.fill(contig, width=80)
+            file.write(formatted_contig + "\n")
 
 
 def draw_graph(graph, graphimg_file): # pragma: no cover
