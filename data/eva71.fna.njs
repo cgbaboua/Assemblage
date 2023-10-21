@@ -6,7 +6,7 @@
   "description": "eva71.fna",
   "number-of-letters": 7408,
   "number-of-sequences": 1,
-  "last-updated": "2023-10-21T21:35:00",
+  "last-updated": "2023-10-21T22:15:00",
   "number-of-volumes": 1,
   "bytes-total": 38944,
   "bytes-to-cache": 1966,

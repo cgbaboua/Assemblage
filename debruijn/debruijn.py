@@ -418,7 +418,7 @@ def draw_graph(graph, graphimg_file):  # pragma: no cover
     :param graph: (nx.DiGraph) A directed graph object
     :param graphimg_file: (str) Path to the output file
     """
-    plt.subplots()
+    fig, ax = plt.subplots()
     elarge = [(u, v) for (u, v, d) in graph.edges(data=True) if d["weight"] > 3]
     # print(elarge)
     esmall = [(u, v) for (u, v, d) in graph.edges(data=True) if d["weight"] <= 3]
@@ -460,7 +460,7 @@ def main():  # pragma: no cover
     # graphe
     # Plot the graph
     if args.graphimg_file:
-        draw_graph(graph, args.graphimg_file)
+        draw_graph(debruijn_graph, args.graphimg_file)
 
 
 if __name__ == "__main__":  # pragma: no cover

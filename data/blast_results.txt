@@ -5517,7 +5517,7 @@ Effective search space used: 54501234
 
 
   Database: eva71.fna
-    Posted date:  Oct 21, 2023  9:35 PM
+    Posted date:  Oct 21, 2023  10:15 PM
   Number of letters in database: 7,408
   Number of sequences in database:  1
 
